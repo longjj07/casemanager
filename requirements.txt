@@ -1,0 +1,6 @@
+eel
+pandas
+pyinstaller
+openpyxl
+Pillow
+chardet

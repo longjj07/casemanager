@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用例数据管理 · 动态分组</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />   
+    
+</head>
+<body>
+<div class="app" id="app">
+    <!-- 头部 -->
+    <header class="header">
+            <h1>
+                <i class="fas fa-flask"></i> 用例数据管理
+                <button class="btn btn-outline btn-sm" id="toggleHeaderBtn" title="折叠/展开表头区域">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+                <div class="header-actions">
+                <div class="search-bar">
+                    
+                    
+                    <button class="btn btn-outline btn-sm" id="resetSearchBtn"><i class="fas fa-undo"></i> 页面重置</button>
+                    <button class="btn btn-outline btn-sm" id="columnSettingsBtn"><i class="fas fa-columns"></i> 列显示设置</button>
+                </div>
+            </h1>
+        
+    </header>
+
+    <!-- 新增折叠容器 -->
+    <div id="headerCollapsible">
+        <div class="header-actions">
+            <div class="search-bar">
+                <select id="searchField"><option value="">选择字段</option></select>
+                <input type="text" id="searchKeyword" placeholder="输入关键词..." />
+                <button class="btn btn-primary btn-sm" id="searchBtn"><i class="fas fa-search"></i> 查询</button>
+                
+                <button class="btn btn-outline btn-sm" id="toggleAdvancedBtn"><i class="fas fa-sliders-h"></i> 高级查询</button>
+            </div>
+            <button class="btn btn-success" id="addRowBtn"><i class="fas fa-plus"></i> 新增用例</button>
+            <button class="btn btn-success" id="loadSampleBtn"><i class="fas fa-table"></i> 示例</button>
+            <button class="btn btn-primary" id="exportBtn"><i class="fas fa-download"></i> 导出 CSV</button>
+            <button class="btn btn-success" id="exportExcelBtn"><i class="fas fa-file-excel"></i> 导出 Excel</button>
+            
+            <button class="btn btn-danger" id="clearBtn"><i class="fas fa-trash-alt"></i> 清空</button>
+            <div class="group-selector-wrapper">
+                <label for="groupFieldSelect">分组：</label>
+                <select id="groupFieldSelect" class="group-selector"></select>
+                <button class="btn btn-outline btn-sm" id="toggleGroupBtn"><i class="fas fa-layer-group"></i> 分组视图</button>
+            </div>
+        </div>
+        <!-- 上传工具栏 -->
+        <div class="upload-toolbar" id="uploadZone">
+            <span class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></span>
+            <span class="upload-text">拖拽或点击上传 CSV</span>
+            <button class="btn btn-sm" id="uploadBtn"><i class="fas fa-folder-open"></i> 选择文件</button>
+            <span class="upload-hint">支持 .csv (UTF-8 / GBK)</span>
+            <div class="import-mode">
+                <label><input type="radio" name="importMode" value="append" checked /> 叠加</label>
+                <label><input type="radio" name="importMode" value="overwrite" /> 覆盖</label>
+            </div>
+            <input type="file" id="fileInput" accept=".csv" />
+        </div>
+
+    </div>
+    <!-- 列显示设置模态框 -->
+        <div id="columnSettingsModal">
+            <div class="modal-card">
+                <h3><i class="fas fa-columns"></i> 列显示设置</h3>
+                <!-- 新增：全选按钮 -->
+                <div style="margin-bottom:10px;">
+                    <button class="btn btn-sm btn-outline" id="selectAllColumnsBtn">
+                        <i class="fas fa-check-double"></i> 全选
+                    </button>   
+                </div>
+                <div id="columnCheckboxes" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+                <div style="margin-top:16px; display:flex; gap:8px; justify-content:flex-end;">
+                    <button class="btn btn-outline" id="columnSettingsCancel">取消</button>
+                    <button class="btn btn-primary" id="columnSettingsConfirm">确认</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 高级搜索 -->
+        <div id="advancedSearch" style="display:none;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+                <span style="font-weight:500;">逻辑：</span>
+                <label><input type="radio" name="searchLogic" value="and" checked /> AND</label>
+                <label><input type="radio" name="searchLogic" value="or" /> OR</label>
+                <button class="btn btn-sm btn-success" id="addConditionBtn"><i class="fas fa-plus"></i> 添加条件</button>
+            </div>
+            <div id="conditionsContainer"></div>
+            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="btn btn-sm btn-primary" id="advancedSearchBtn"><i class="fas fa-search"></i> 高级查询</button>
+                <button class="btn btn-sm btn-outline" id="clearConditionsBtn"><i class="fas fa-times"></i> 清空条件</button>
+            </div>
+        </div>
+
+        <!-- 搜索横幅 -->
+        <div id="viewBanner" class="view-banner">
+            <i class="fas fa-search"></i>
+            <span class="text" id="bannerText">搜索结果</span>
+            <span class="count" id="bannerCount">0 条</span>
+            <button class="btn btn-sm btn-outline" id="bannerResetBtn" style="margin-left:auto;">显示全部</button>
+        </div>
+
+        <!-- 统计 -->
+        <div class="stats" id="statsBar">
+            <div class="stat-item"><span class="num" id="totalCount">0</span><span class="label">行</span></div>
+            <div class="spacer"></div>
+            <div class="stat-item" id="emptyIdStat" style="display:none;">
+                <span class="label">空用例编号：</span><span class="num" id="emptyIdCount">0</span>
+            </div>
+            <div class="status-msg" id="statusMsg">就绪</div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="table-wrapper">
+            <div class="table-scroll" id="tableScroll">
+                <div id="tableContainer"></div>
+            </div>
+            <div id="emptyState" class="empty-state">
+                <i class="fas fa-database"></i>
+                <h4>暂无数据</h4>
+                <p>请上传 CSV 或点击「示例」</p>
+            </div>
+            <div class="pagination" id="pagination">
+                <div class="info">
+                    共 <span id="totalRecords">0</span> 条，
+                    第 <span id="currentPageDisplay">1</span> / <span id="totalPagesDisplay">1</span> 页
+                </div>
+                <div class="controls">
+                    <button id="firstPageBtn" title="首页"><i class="fas fa-angle-double-left"></i></button>
+                    <button id="prevPageBtn" title="上一页"><i class="fas fa-angle-left"></i></button>
+                    <input type="number" id="pageInput" class="page-num" value="1" min="1" />
+                    <button class="go-btn" id="goPageBtn">跳转</button>
+                    <button id="nextPageBtn" title="下一页"><i class="fas fa-angle-right"></i></button>
+                    <button id="lastPageBtn" title="末页"><i class="fas fa-angle-double-right"></i></button>
+                    <select id="pageSizeSelect">
+                        <option value="20">20条/页</option>
+                        <option value="50" selected>50条/页</option>
+                        <option value="100">100条/页</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- Lightbox / 模态框 -->
+<div class="lightbox" id="lightbox">
+    <span class="close-btn" id="lightboxClose">&times;</span>
+    <img id="lightboxImg" src="" alt="场景图大图" />
+</div>
+<div id="addModal">
+    <div class="modal-content">
+        <h3><i class="fas fa-plus-circle"></i> 新增用例</h3>
+        <div id="addForm"></div>
+        <div class="modal-actions">
+            <button class="btn btn-outline" id="addCancelBtn">取消</button>
+            <button class="btn btn-success" id="addConfirmBtn">确认新增</button>
+        </div>
+    </div>
+</div>
+<div id="editModal">
+    <div class="modal-content">
+        <h3><i class="fas fa-pen"></i> 编辑用例</h3>
+        <div id="editForm"></div>
+        <div class="modal-actions">
+            <button class="btn btn-outline" id="editCancelBtn">取消</button>
+            <button class="btn btn-primary" id="editConfirmBtn">保存修改</button>
+        </div>
+    </div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="/eel.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+/* ===== 全局样式（与之前相同，略） ===== */
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background:#f4f8fc; padding:30px 20px; display:flex; justify-content:center; }
+        .app { max-width:1400px; width:100%; }
+        .header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom:12px; gap:12px; }
+        .header h1 { font-size:28px; font-weight:700; color:#0b1a33; display:flex; align-items:center; gap:12px; }
+        .header h1 i { color:#1a5fb0; }
+        .header-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+        .btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; transition:all .2s; background:#fff; color:#1a2b4a; box-shadow:0 2px 6px rgba(0,0,0,.04); border:1px solid #e2e9f2; }
+        .btn i { font-size:14px; }
+        .btn-primary { background:#1a5fb0; color:#fff; border-color:#1a5fb0; box-shadow:0 4px 10px rgba(26,95,176,.25); }
+        .btn-primary:hover { background:#134a8a; transform:translateY(-2px); }
+        .btn-success { background:#0f7b3a; color:#fff; border-color:#0f7b3a; box-shadow:0 4px 10px rgba(15,123,58,.25); }
+        .btn-success:hover { background:#0a5f2d; transform:translateY(-2px); }
+        .btn-danger { background:#c42e2e; color:#fff; border-color:#c42e2e; box-shadow:0 4px 10px rgba(196,46,46,.2); }
+        .btn-danger:hover { background:#a02222; transform:translateY(-2px); }
+        .btn-outline { background:transparent; border:1px solid #d0dce8; color:#2c3e5a; }
+        .btn-outline:hover { background:#edf3f9; border-color:#b0c4d8; }
+        .btn-warning { background:#e67e22; color:#fff; border-color:#e67e22; box-shadow:0 4px 10px rgba(230,126,34,.25); }
+        .btn-warning:hover { background:#cf6d17; transform:translateY(-2px); }
+        .btn-sm { padding:4px 12px; font-size:13px; border-radius:6px; }
+        .btn-xs { padding:2px 8px; font-size:12px; border-radius:4px; }
+        .btn:disabled { opacity:0.6; cursor:not-allowed; transform:none !important; }
+        .upload-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; padding:6px 16px; background:#f8fafc; border:1px solid #e6edf5; border-radius:10px; margin-bottom:12px; transition:all .25s; cursor:pointer; min-height:44px; }
+        .upload-toolbar.dragover { border-color:#1a5fb0; background:#eef5fc; box-shadow:0 0 0 3px rgba(26,95,176,.08); }
+        .upload-toolbar .upload-icon { color:#6d8db0; font-size:18px; }
+        .upload-toolbar .upload-text { font-size:14px; color:#1a2b4a; font-weight:500; }
+        .upload-toolbar .upload-hint { font-size:12px; color:#8aa3bf; margin-left:4px; }
+        .upload-toolbar .import-mode { display:flex; gap:8px; align-items:center; margin-left:4px; }
+        .upload-toolbar .import-mode label { font-size:13px; font-weight:400; color:#1f3a5c; display:flex; align-items:center; gap:4px; cursor:pointer; }
+        .upload-toolbar .import-mode input[type="radio"] { accent-color:#1a5fb0; width:14px; height:14px; margin:0; cursor:pointer; }
+        #fileInput { display:none; }
+        .stats { display:flex; flex-wrap:wrap; gap:18px 30px; background:#fff; border-radius:16px; padding:14px 24px; margin-bottom:24px; box-shadow:0 2px 8px rgba(0,0,0,.02); border:1px solid #e6edf5; align-items:center; }
+        .stats .stat-item { display:flex; align-items:baseline; gap:6px; font-size:14px; color:#1f3a5c; }
+        .stats .stat-item .num { font-weight:700; font-size:20px; color:#0b1a33; }
+        .stats .stat-item .label { color:#5e7a99; }
+        .stats .spacer { flex:1; }
+        .stats .status-msg { font-size:14px; font-weight:500; background:#e3f0ff; padding:4px 16px; border-radius:20px; }
+        .view-banner { background:#fff3cd; border-left:5px solid #ffc107; padding:10px 18px; border-radius:8px; margin-bottom:16px; font-weight:500; display:none; align-items:center; gap:12px; }
+        .view-banner.show { display:flex; }
+        .view-banner i { font-size:20px; color:#856404; }
+        .view-banner .text { flex:1; }
+        .view-banner .count { background:#fff; padding:2px 12px; border-radius:12px; font-weight:600; }
+        /* .table-wrapper { background:#fff; border-radius:18px; border:1px solid #e6edf5; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,.02); } */
+        /* .table-scroll { overflow-x:auto; padding:4px 0; max-height:600px; overflow-y:auto; } */
+        table { width:100%; border-collapse:collapse; font-size:13px; overflow-y:auto;}
+        thead { background:#f2f8fe; border-bottom:2px solid #dce8f5; position:sticky; top:0; z-index:2; }
+        thead th { text-align:left; padding:12px 12px; font-weight:600; color:#1f3a5c; font-size:12px; letter-spacing:.2px; white-space:nowrap; background:#f2f8fe; }
+        thead th:last-child { text-align:center; }
+        tbody tr { border-bottom:1px solid #edf3f9; transition:background .15s; }
+        tbody tr:hover { background:#f8fcff; }
+        tbody td { padding:8px 12px; vertical-align:middle; color:#1f334f; word-break:break-word; }
+        .cell-text { display:block; max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .cell-link { color:#1a5fb0; text-decoration:underline; cursor:pointer; }
+        .cell-link:hover { color:#0b3b6b; }
+        .link-item { display:block; width:100%; margin-bottom:2px; }
+        .scene-thumb { max-width:60px; max-height:60px; border-radius:6px; border:1px solid #e2e9f2; object-fit:cover; cursor:pointer; transition:transform .2s; }
+        .scene-thumb:hover { transform:scale(1.05); box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+        .td-actions { display:flex; gap:4px; justify-content:center; flex-wrap:wrap; }
+        .td-actions .btn { padding:3px 8px; font-size:11px; border-radius:5px; }
+        .empty-state { text-align:center; padding:60px 20px; color:#6d8db0; }
+        .empty-state i { font-size:52px; margin-bottom:16px; opacity:.5; }
+        .empty-state h4 { font-size:18px; font-weight:500; color:#1f3a5c; margin-bottom:6px; }
+        @keyframes highlightRow { 0% { background-color: #fff3cd; } 100% { background-color: transparent; } }
+        tr.highlight-new { animation: highlightRow 1.5s ease 3; }
+        .lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center; cursor:pointer; }
+        .lightbox.show { display:flex; }
+        .lightbox img { max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 4px 30px rgba(0,0,0,0.5); object-fit:contain; }
+        .lightbox .close-btn { position:absolute; top:20px; right:30px; font-size:40px; color:#fff; cursor:pointer; font-weight:300; transition:.2s; }
+        .lightbox .close-btn:hover { color:#ccc; }
+        .toast-container { position:fixed; top:24px; right:24px; z-index:9998; display:flex; flex-direction:column; gap:10px; max-width:420px; width:100%; }
+        .toast { background:#1f334f; color:#f0f7ff; padding:14px 20px; border-radius:12px; box-shadow:0 8px 28px rgba(0,0,0,.18); font-size:14px; font-weight:500; display:flex; align-items:center; gap:12px; animation:slideIn .35s ease; border-left:5px solid #2a7de1; }
+        .toast.success { border-left-color:#0f7b3a; background:#0f2a1a; }
+        .toast.error { border-left-color:#c42e2e; background:#2e1414; }
+        .toast.warning { border-left-color:#e67e22; background:#2f1f0e; }
+        .toast i { font-size:20px; }
+        @keyframes slideIn { 0% { opacity:0; transform:translateX(40px); } 100% { opacity:1; transform:translateX(0); } }
+        #editModal, #addModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:999; justify-content:center; align-items:center; }
+        #editModal.show, #addModal.show { display:flex; }
+        .modal-content { background:#fff; padding:30px; border-radius:16px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; }
+        .modal-content h3 { margin-bottom:16px; }
+        .modal-content .form-group { margin-bottom:12px; }
+        .modal-content .form-group label { display:block; font-weight:500; margin-bottom:4px; font-size:13px; color:#1f3a5c; }
+        .modal-content .form-group input[type="text"], .modal-content .form-group input[type="file"] { width:100%; padding:6px 10px; border-radius:6px; border:1px solid #d0dce8; font-size:14px; background:#fff; }
+        .modal-content .form-group .field-hint { font-size:12px; color:#8aa3bf; margin-top:2px; }
+        .modal-content .form-group .file-preview { margin-top:6px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+        .modal-content .form-group .file-preview img { max-width:80px; max-height:80px; border-radius:6px; border:1px solid #d0dce8; object-fit:cover; cursor:pointer; }
+        .modal-content .form-group .file-preview .file-name { font-size:13px; color:#5e7a99; }
+        .modal-actions { display:flex; gap:12px; margin-top:20px; justify-content:flex-end; }
+        .search-bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+        .search-bar select, .search-bar input { padding:6px 10px; border-radius:8px; border:1px solid #d0dce8; font-size:13px; background:#fff; }
+        .search-bar input { width:180px; }
+        .search-bar .disabled { opacity:0.6; pointer-events:none; }
+        #advancedSearch { background:#f8fafc; border:1px solid #e6edf5; border-radius:10px; padding:15px; margin-top:10px; }
+        .condition-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; flex-wrap:wrap; }
+        .condition-row select, .condition-row input { padding:4px 8px; border-radius:6px; border:1px solid #d0dce8; background:#fff; font-size:13px; }
+        .condition-row select { min-width:100px; }
+        .condition-row input { flex:1; min-width:120px; }
+        .pagination { display:none; flex-wrap:wrap; align-items:center; justify-content:space-between; padding:12px 20px; background:#f8fafc; border-top:1px solid #e6edf5; gap:12px; }
+        .pagination .info { font-size:14px; color:#1f3a5c; }
+        .pagination .controls { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+        .pagination .controls button { padding:4px 10px; border:1px solid #d0dce8; border-radius:6px; background:#fff; cursor:pointer; font-size:13px; transition:.2s; color:#1f3a5c; }
+        .pagination .controls button:hover:not(:disabled) { background:#eef5fc; }
+        .pagination .controls button:disabled { opacity:0.5; cursor:not-allowed; }
+        .pagination .controls select { padding:4px 8px; border-radius:6px; border:1px solid #d0dce8; font-size:13px; background:#fff; }
+        .pagination .controls .page-num { padding:4px 8px; border:1px solid #d0dce8; border-radius:6px; width:60px; text-align:center; font-size:13px; }
+        .pagination .controls .page-num:focus { outline:none; border-color:#1a5fb0; }
+        .pagination .controls .go-btn { padding:4px 12px; }
+        .group-selector-wrapper { display:flex; align-items:center; gap:6px; }
+        .group-selector-wrapper label { font-size:13px; color:#1f3a5c; font-weight:500; }
+        .group-selector { padding:4px 8px; border-radius:6px; border:1px solid #d0dce8; background:#fff; font-size:13px; height:32px; }
+        .group-container { margin:8px 0; border:1px solid #e6edf5; border-radius:8px; overflow:hidden; }
+        .group-header { background:#f2f8fe; padding:8px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#1f3a5c; border-bottom:1px solid #dce8f5; transition:background 0.2s; }
+        .group-header:hover { background:#e3edf7; }
+        .group-header .group-title { display:flex; align-items:center; gap:8px; }
+        .group-header .group-title i { transition:transform 0.2s; }
+        .group-header .group-title i.collapsed { transform:rotate(-90deg); }
+        .group-body { overflow:hidden; transition:max-height 0.3s ease; }
+        .group-body.collapsed { max-height:0 !important; }
+        .group-body table { min-width:100%; }
+        .group-body table thead { background:#f8fafd; }
+        #columnSettingsModal { display:none; position:fixed; top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:9999;justify-content:center;align-items:center; }
+        #columnSettingsModal .modal-card { background:#fff; padding:20px; border-radius:12px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; }
+        @media (max-width:768px) {
+            .header h1 { font-size:22px; }
+            .header-actions { gap:8px; }
+            .upload-toolbar { flex-wrap:wrap; }
+            .stats { flex-direction:column; align-items:stretch; gap:10px; }
+            .stats .spacer { display:none; }
+            .condition-row { flex-wrap:wrap; }
+            .pagination { flex-direction:column; align-items:stretch; }
+            .pagination .controls { justify-content:center; }
+            .group-selector-wrapper { flex-wrap:wrap; }
+        }
+        #headerCollapsible {
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            max-height: 800px;  /* 足够容纳所有内容 */
+            opacity: 1;
+        }
+        #headerCollapsible.collapsed {
+            max-height: 0 !important;
+            opacity: 0;
+            padding-top: 0;
+            margin-bottom: 0;
+        }
+        /* 折叠时隐藏内部元素（可选） */
+        #headerCollapsible.collapsed .upload-toolbar,
+        #headerCollapsible.collapsed .stats,
+        #headerCollapsible.collapsed .view-banner,
+        #headerCollapsible.collapsed #advancedSearch {
+            display: none;
+        }
+
+        /* 强制所有表格表头冻结 */
+        .table-scroll table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .table-scroll table thead th {
+            background: #f2f8fe;
+            box-shadow: inset 0 -2px 0 #dce8f5; /* 分隔线 */
+        }
+
+        
+      
+
+        .table-scroll thead {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 100 !important;
+            background: #f2f8fe !important;
+        }
+
+        .table-scroll thead th {
+            background: #f2f8fe !important;
+            border-bottom: 2px solid #dce8f5;
+            position: relative;
+            /* 保证背景覆盖内容 */
+        }
+
+        /* ---- 分组视图内部表格同样处理 ---- */
+        .group-body .table-scroll-inner {
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .group-body .table-scroll-inner table thead {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 10 !important;
+            background: #f2f8fe !important;
+        }
+
+        .group-body .table-scroll-inner table thead th {
+            background: #f2f8fe !important;
+        }
+
+
+        /* 使整个应用占满视口高度 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            padding: 0 !important;       /* 移除 body 内边距，让内容完全贴边 */
+            background: #f4f8fc;
+        }
+
+        .app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;              /* 占满视口高度 */
+            max-width: 100%;            /* 允许宽度占满 */
+            padding: 0 20px;            /* 可选留一点边距 */
+            box-sizing: border-box;
+        }
+
+        /* 头部、统计栏等保持原有样式，只是占据顶部 */
+        .header { flex-shrink: 0; }    /* 不让头部压缩 */
+        #headerCollapsible { flex-shrink: 0; }
+        .stats { flex-shrink: 0; }
+
+        /* 表格外层容器自动撑满剩余高度 */
+        .table-wrapper {
+            flex: 1;                   /* 占据剩余所有空间 */
+            display: flex;
+            flex-direction: column;
+            min-height: 0;             /* 防止 flex 溢出 */
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        /* 表格滚动容器也占满父容器 */
+        .table-scroll {
+            flex: 1;
+            max-height: none !important;  /* 去掉固定 max-height，让 flex 控制 */
+            overflow-y: auto;
+            overflow-x: auto;
+            padding: 0;
+        }
+
+        /* 重要：表格宽度自适应，移除固定最小宽度 */
+        .table-scroll table {
+            min-width: 0 !important;      /* 覆盖任何内联或全局设置 */
+            width: 100%;
+            table-layout: auto;
+        }
+
+        /* 如果仍希望水平滚动时列宽不挤压，可保留一定最小宽度，但不要用 700px */
+        /* 例如可以设置单列的最小宽度，或整体 min-width: 0 */
+
+        .btn-info {
+            background: #17a2b8;
+            color: #fff;
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
